@@ -16,6 +16,16 @@ case "$SHELL" in
     ;;
   esac
 
+eval "$(starship init zsh)"
+
+
+
+
+
+
+
+
+
 #GITHUB
 gs() {
   git status
@@ -93,6 +103,7 @@ dot() {
 qrt() {
   cd $HOME/qrt
 }
+
 
 
 

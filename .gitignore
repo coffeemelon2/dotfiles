@@ -1,0 +1,41 @@
+# 🛡️ Environment files
+.env
+.env.*
+*.env
+
+# 🔐 Private keys & credentials
+*.pem
+*.key
+*.crt
+*.pfx
+*.asc
+*.gpg
+*.keystore
+*.jks
+
+# 🔑 Secret config files
+secrets.*
+config/secrets.*
+credentials.json
+apikeys.json
+private.key
+
+# 🤫 Misc common secret folders/files
+*.sqlite
+*.db
+*.bak
+*.log
+.idea/
+.vscode/
+*.swp
+
+# 🚀 Deployment secrets
+*.tfstate
+*.tfstate.*
+.terraform/
+*.aws/
+.aws/
+*.npmrc
+*.pypirc
+*.dockercfg
+docker-compose.override.yml
