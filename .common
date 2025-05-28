@@ -1,0 +1,103 @@
+#PATHS
+export PATH="/usr/local/bin:$PATH"
+export PATH="/usr/local/opt/postgresql@16/bin:$PATH"
+export PATH="/sbin:/usr/sbin:$PATH"
+export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
+
+#EVALS
+case "$SHELL" in
+  */bash) eval "$(direnv hook bash)" ;;
+  */zsh) eval "$(direnv hook zsh)" ;;
+  *)
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] ERROR: unsupported shell '$SHELL'"
+    return
+    ;;
+  esac
+
+#GITHUB
+gs() {
+  git status
+}
+
+ga() {
+  git add .
+}
+
+gc() {
+ git commit -m "Saved at $(date +"%Y-%m-%d %H:%M:%S (%a)")"
+}
+
+gac() {
+  git add .
+  git commit -m "Saved at $(date +"%Y-%m-%d %H:%M:%S (%a)")"
+}
+
+
+gacp() { 
+  git add .
+  git commit -m "Saved at $(date +"%Y-%m-%d %H:%M:%S (%a)")"
+  git push -u origin "$(git rev-parse --abbrev-ref HEAD)"
+} 
+gacpf() { 
+  git add .
+  git commit -m "Saved at $(date +"%Y-%m-%d %H:%M:%S (%a)")"
+  git push -fu origin "$(git rev-parse --abbrev-ref HEAD)"
+} 
+grbom() {
+  git fetch
+  git rebase origin/master
+}
+
+gp() {
+  git push -u origin "$(git rev-parse --abbrev-ref HEAD)"
+}
+
+gpf() {
+  git push -fu origin "$(git rev-parse --abbrev-ref HEAD)"
+}
+
+grb() {
+		unset __grb_branch
+		if [ $# -eq 0 ]; then
+			__grb_branch='origin/master'
+		elif [ $# -eq 1 ]; then
+			__grb_branch="$1"
+		else
+			echo "'grb' accepts [0..1] arguments" || return 1
+		fi
+		git fetch --all || return $?
+		git rebase -s recursive -X theirs "${__grb_branch}" || return $?
+	}
+
+grbc() {
+  git rebase --continue
+        }
+
+
+
+ns() {
+  nano $HOME/dotfiles/.common
+}
+
+ss() {
+  source $HOME/dotfiles/.common
+}
+
+
+dot() {
+  cd $HOME/dotfiles
+}
+
+qrt() {
+  cd $HOME/qrt
+}
+
+
+
+
+__file="${HOME}/common.local.sh"
+if [ -f "$__file" ]; then
+    . "$__file"
+fi
