@@ -32,7 +32,7 @@ gs() {
 }
 
 ga() {
-  git add .
+  git add -u
 }
 
 gc() {
@@ -40,18 +40,18 @@ gc() {
 }
 
 gac() {
-  git add .
+  git add -u
   git commit -m "Saved at $(date +"%Y-%m-%d %H:%M:%S (%a)")"
 }
 
 
 gacp() { 
-  git add .
+  git add -u
   git commit -m "Saved at $(date +"%Y-%m-%d %H:%M:%S (%a)")"
   git push -u origin "$(git rev-parse --abbrev-ref HEAD)"
 } 
 gacpf() { 
-  git add .
+  git add -u
   git commit -m "Saved at $(date +"%Y-%m-%d %H:%M:%S (%a)")"
   git push -fu origin "$(git rev-parse --abbrev-ref HEAD)"
 } 
@@ -132,6 +132,9 @@ suvm3() {
   $HOME/qrt/scripts/setup-vm.sh debian3 127.0.0.1 debian3 1234 -p 2228
 }
 
+qrts() {
+  nano $HOME/qrt/assets/environment/settings.sh
+}
 
 __file="${HOME}/common.local.sh"
 if [ -f "$__file" ]; then
