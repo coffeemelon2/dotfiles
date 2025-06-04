@@ -140,3 +140,7 @@ __file="${HOME}/common.local.sh"
 if [ -f "$__file" ]; then
     . "$__file"
 fi
+
+
+#ALIASES
+alias pcr='pre-commit files --all-files'
