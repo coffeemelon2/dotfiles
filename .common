@@ -140,8 +140,9 @@ dock() {
   docker exec -it ib-qrt bash
 }
 
-
-
+checkout() {
+  ~/qrt/scripts/checkout-version.sh
+}
 
 __file="${HOME}/common.local.sh"
 if [ -f "$__file" ]; then
