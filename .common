@@ -149,6 +149,19 @@ dock() {
   docker exec -it ib-qrt bash
 }
 
+jl () {
+        if [ $# -eq 0 ]
+        then
+                uv run --with=altair,beartype,hvplot,jupyterlab,jupyterlab-code-formatter,matplotlib,rich,vegafusion,vegafusion-python-embed,vl-convert-python --active --managed-python jupyter lab || return $?
+        else
+                echo_date "'jl' accepts no arguments" && return 1
+        fi
+}
+
+
+
+
+
 checkout() {
   ~/qrt/scripts/checkout-version.sh
 }
