@@ -122,6 +122,10 @@ qrt() {
   cd $HOME/Work/qrt
 }
 
+qrt2() {
+  cd $HOME/Work/qrt2
+}
+
 installvms() {
   $HOME/qrt/qrt-addons/install-vm.sh debian1 debian1 1234 2224 && $HOME/qrt/qrt-addons/install-vm.sh debian2 debian3 1234 2226 && $HOME/qrt/qrt-addons/install-vm.sh debian3 debian3 1234 2228
 }
