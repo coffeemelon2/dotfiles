@@ -119,11 +119,11 @@ dot() {
 }
 
 qrt() {
-  cd $HOME/Work/qrt
+  cd $HOME/qrt
 }
 
 qrt2() {
-  cd $HOME/Work/qrt2
+  cd $HOME/qrt2
 }
 
 installvms() {
