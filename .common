@@ -29,7 +29,16 @@ dc() {
   cd ..
 }
 
-
+cd_here () {
+        if [ $# -eq 0 ]
+        then
+                __cd_here_pwd="$(pwd)"
+                cd / || return $?
+                cd "${__cd_here_pwd}" || return $?
+        else
+                echo_date "'cd_here' accepts no arguments" && return 1
+        fi
+}
 
 
 
