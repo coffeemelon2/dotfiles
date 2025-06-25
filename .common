@@ -7,6 +7,9 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/postgresql@17/bin:$PATH"
 
+#EDITOR
+export VISUAL=nvim
+export EDITOR=nvim
 
 #EVALS
 case "$SHELL" in
