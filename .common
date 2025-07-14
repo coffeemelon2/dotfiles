@@ -6,6 +6,10 @@ export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/postgresql@17/bin:$PATH"
+export PATH="$HOME"/tsunami-udp/tsunami-udp/client/:"$PATH"
+export PATH="$HOME"/tsunami-udp/tsunami-udp/server/:"$PATH"
+
+
 
 #EDITOR
 export VISUAL=nvim
@@ -121,6 +125,12 @@ ss() {
 dot() {
   cd $HOME/dotfiles
 }
+
+infiles() {
+  cd $HOME/infiles
+}
+
+#QRT
 
 qrt() {
   cd $HOME/qrt
