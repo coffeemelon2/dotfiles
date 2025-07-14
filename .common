@@ -9,8 +9,6 @@ export PATH="/usr/local/opt/postgresql@17/bin:$PATH"
 export PATH="$HOME"/tsunami-udp/tsunami-udp/client/:"$PATH"
 export PATH="$HOME"/tsunami-udp/tsunami-udp/server/:"$PATH"
 
-
-
 #EDITOR
 export VISUAL=nvim
 export EDITOR=nvim
@@ -47,10 +45,12 @@ cd_here () {
         fi
 }
 
+ss() {
+  source $HOME/dotfiles/.common
+}
 
 # echo
 echo_date() { echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*"; }
-
 
 #GITHUB
 gs() {
@@ -69,7 +69,6 @@ gac() {
   git add -u
   git commit -m "Saved at $(date +"%Y-%m-%d %H:%M:%S (%a)")"
 }
-
 
 gacp() { 
   git add -u
@@ -111,16 +110,11 @@ grbc() {
   git rebase --continue
         }
 
-
+#Navigation
 
 ns() {
   nvim $HOME/dotfiles/.common
 }
-
-ss() {
-  source $HOME/dotfiles/.common
-}
-
 
 dot() {
   cd $HOME/dotfiles
@@ -145,7 +139,7 @@ installvms() {
 }
 
 suvm1sr() {
-  $HOME/qrt/scripts/setup-vm.sh debian1 127.0.0.1 debian1 1234 -p 2224 -sr
+  $HOME/qrt/scripts/setup-vm.sh debian1 127.0.0.1 vm1 1234 -p 2224 -sr
 }
 
 suvm2sr() {
@@ -157,7 +151,7 @@ suvm3sr() {
 }
 
 suvm1() {
-  $HOME/qrt/scripts/setup-vm.sh debian1 127.0.0.1 debian1 1234 -p 2224
+$HOME/qrt/scripts/setup-vm.sh debian1 127.0.0.1 debian1 1234 -p 2224
 }
 
 suvm2() {
@@ -172,11 +166,14 @@ qrts() {
   nano $HOME/qrt/assets/environment/settings.sh
 }
 
+
+#docker
 dock() {
   docker exec -it ib-qrt bash
 }
 
-jl () {
+#jupyter
+jupyter() {
         if [ $# -eq 0 ]
         then
                 uv run --with=altair,beartype,hvplot,jupyterlab,jupyterlab-code-formatter,matplotlib,rich,vegafusion,vegafusion-python-embed,vl-convert-python --active --managed-python jupyter lab || return $?
@@ -185,7 +182,7 @@ jl () {
         fi
 }
 
-jlnb () {
+jupyter_nobrowser() {
     if [ $# -eq 0 ]; then
         uv run \
             --with=altair,beartype,hvplot,jupyterlab,jupyterlab-code-formatter,matplotlib,rich,vegafusion,vegafusion-python-embed,vl-convert-python \
@@ -199,14 +196,6 @@ jlnb () {
 checkout() {
   ~/qrt/scripts/checkout-version.sh
 }
-
-__file="${HOME}/common.local.sh"
-if [ -f "$__file" ]; then
-    . "$__file"
-fi
-
-
-autoload -U compinit; compinit
 
 # tsunami
 tsunami_dl() {
@@ -263,4 +252,10 @@ if command -v tailscale >/dev/null 2>&1 && command -v tailscaled >/dev/null 2>&1
 			fi
 		}
 	fi
+fi
+
+# source
+__file="${HOME}/common.local.sh"
+if [ -f "$__file" ]; then
+    . "$__file"
 fi
