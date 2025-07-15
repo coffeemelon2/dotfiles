@@ -124,6 +124,10 @@ infiles() {
   cd $HOME/infiles
 }
 
+outfiles() {
+  cd $HOME/outfiles
+}
+
 #QRT
 
 qrt() {
@@ -134,38 +138,9 @@ qrt2() {
   cd $HOME/qrt2
 }
 
-installvms() {
-  $HOME/qrt/qrt-addons/install-vm.sh debian1 debian1 1234 2224 && $HOME/qrt/qrt-addons/install-vm.sh debian2 debian3 1234 2226 && $HOME/qrt/qrt-addons/install-vm.sh debian3 debian3 1234 2228
-}
-
-suvm1sr() {
-  $HOME/qrt/scripts/setup-vm.sh debian1 127.0.0.1 vm1 1234 -p 2224 -sr
-}
-
-suvm2sr() {
-  $HOME/qrt/scripts/setup-vm.sh debian2 127.0.0.1 debian2 1234 -p 2226 -sr
-}
-
-suvm3sr() {
-  $HOME/qrt/scripts/setup-vm.sh debian3 127.0.0.1 debian3 1234 -p 2228 -sr
-}
-
-suvm1() {
-$HOME/qrt/scripts/setup-vm.sh debian1 127.0.0.1 debian1 1234 -p 2224
-}
-
-suvm2() {
-  $HOME/qrt/scripts/setup-vm.sh debian2 127.0.0.1 debian2 1234 -p 2226
-}
-
-suvm3() {
-  $HOME/qrt/scripts/setup-vm.sh debian3 127.0.0.1 debian3 1234 -p 2228
-}
-
-qrts() {
+qrt_settings() {
   nano $HOME/qrt/assets/environment/settings.sh
 }
-
 
 #docker
 dock() {
@@ -198,10 +173,13 @@ checkout() {
 }
 
 # tsunami
-tsunami_dl() {
-    echo -e "set rate 70M \nset speedup 9/10 \nset slowdown 10/9\nset blocksize 1200\nset error 10%\nconnect $(dig +short "$1")\nget *\nquit\n" | tsunami
-    }
+tsunami_client() {
+    cd $HOME/infiles && echo -e "set rate 70M \nset speedup 9/10 \nset slowdown 10/9\nset blocksize 1200\nset error 10%\nconnect $(dig +short "$1")\nget *\nquit\n" | tsunami
+}
 
+tsunami_server() {
+    cd $HOME/outfiles && tsunamid *
+}
 
 # tailscale
 if command -v tailscale >/dev/null 2>&1 && command -v tailscaled >/dev/null 2>&1; then
