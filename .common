@@ -110,6 +110,12 @@ grbc() {
   git rebase --continue
         }
 
+git-clean-branch() { 
+	git fetch --prune
+	git branch -vv | awk '/: gone]/{print $1}' | xargs -r git branch -D
+}
+
+
 #Navigation
 
 ns() {
@@ -172,13 +178,22 @@ checkout() {
   ~/qrt/scripts/checkout-version.sh
 }
 
+
+
+
+# networking
+
+ping-headscale() {
+  ping https://headscale.queensberryreearch.com
+}
+
 # tsunami
 if command -v tsunami >/dev/null 2>&1; then
     tsunami_get() {
         if [ $# -ne 1 ]; then
             echo_date "'tsunami_get' accepts 1 argument" && return 1
         fi
-        __path="${HOME}/work/tsunami/in"
+        __path="${HOME}/infiles"
         mkdir -p "${__path}"
         __host="$(dig +short "$1")"
         __cmd=$(printf 'set rate 70M\nset speedup 9/10\nset slowdown 10/9\nset blocksize 1200\nset error 10%%\nconnect %s\nget *\nquit\n' "${__host}")
@@ -193,7 +208,7 @@ if command -v tsunamid >/dev/null 2>&1; then
         if [ $# -ne 0 ]; then
             echo_date "'tsunami_serve' accepts 0 arguments" && return 1
         fi
-        __path="${HOME}/work/tsunami/out"
+        __path="${HOME}/outfiles"
         mkdir -p "${__path}"
         (
             cd "${__path}" || exit 1
@@ -204,7 +219,7 @@ if command -v tsunamid >/dev/null 2>&1; then
 fi
 
 tsunami_client() {
-    cd $HOME/infiles && echo -e "set rate 70M \nset speedup 9/10 \nset slowdown 10/9\nset blocksize 1200\nset error 10%\nconnect $(dig +short "$1")\nget *\nquit\n" | tsunami
+    cd $HOME/infiles && echo -e "set rate 70M \nset speedup 9/10 \nset slowdown 10/9\nset blocksize 1200\nset error 10%\nconnect $1\nget *\nquit\n" | tsunami
 }
 
 tsunami_server() {
@@ -226,7 +241,8 @@ if command -v tailscale >/dev/null 2>&1 && command -v tailscaled >/dev/null 2>&1
 			echo_date "Starting 'tailscaled' in the background..." || return $?
 			sudo tailscaled &
 			echo_date "Starting 'tailscale'..." || return $?
-			sudo tailscale up --accept-dns --accept-routes --auth-key="file:${__ts_up_auth_key}" --login-server="${TAILSCALE_LOGIN_SERVER}" && return $?
+			sudo tailscale up --reset --force-reauth --auth-key="file:${__ts_up_auth_key}" --login-server="${TAILSCALE_LOGIN_SERVER}" && return $?
+		        #sudo tailscale up --accept-routes=true --exit-node=100.64.0.2 --exit-node-allow-lan-access=false --accept-dns=true --reset --force-reauth --auth-key="file:${__ts_up_auth_key}" --login-server="${TAILSCALE_LOGIN_SERVER}" && return $?
 		else
 			echo_date "'ts_up' accepts no arguments" && return 1
 		fi
