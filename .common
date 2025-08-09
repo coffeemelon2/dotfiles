@@ -148,6 +148,11 @@ qrt_settings() {
   nano $HOME/qrt/assets/environment/settings.sh
 }
 
+backfill() {
+  cd $HOME/qrt/python/backfill
+  }
+
+
 #docker
 dock() {
   docker exec -it ib-qrt bash
@@ -185,6 +190,12 @@ checkout() {
 
 ping-headscale() {
   ping https://headscale.queensberryreearch.com
+}
+
+flush-dns() {
+  sudo dscacheutil -flushcache
+  sudo killall -HUP mDNSResponder
+  sudo killall mDNSResponderHelper 2>/dev/null
 }
 
 # tsunami
