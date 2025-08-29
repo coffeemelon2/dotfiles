@@ -152,6 +152,9 @@ backfill() {
   cd $HOME/qrt/python/backfill
   }
 
+database() {
+  cd $HOME/qrt/python/database
+  }
 
 #docker
 dock() {
