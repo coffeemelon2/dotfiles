@@ -8,6 +8,11 @@ export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/postgresql@17/bin:$PATH"
 export PATH="$HOME"/tsunami-udp/tsunami-udp/client/:"$PATH"
 export PATH="$HOME"/tsunami-udp/tsunami-udp/server/:"$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+
+# XDG
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
 
 #EDITOR
 export VISUAL=nvim
@@ -115,6 +120,8 @@ git-clean-branch() {
 	git branch -vv | awk '/: gone]/{print $1}' | xargs -r git branch -D
 }
 
+
+alias gcl='git clone --recurse-submodules'
 
 #Navigation
 
