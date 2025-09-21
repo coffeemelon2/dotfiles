@@ -202,7 +202,7 @@ ping-headscale() {
   ping https://headscale.queensberryreearch.com
 }
 
-flush-dns() {
+flush() {
   sudo dscacheutil -flushcache
   sudo killall -HUP mDNSResponder
   sudo killall mDNSResponderHelper 2>/dev/null
