@@ -9,6 +9,8 @@ export PATH="/usr/local/opt/postgresql@17/bin:$PATH"
 export PATH="$HOME"/tsunami-udp/tsunami-udp/client/:"$PATH"
 export PATH="$HOME"/tsunami-udp/tsunami-udp/server/:"$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/usr/local/opt/curl/bin:$PATH"
+
 
 # XDG
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -246,6 +248,50 @@ tsunami_client() {
 tsunami_server() {
     cd $HOME/outfiles && tsunamid *
 }
+
+
+#nfs
+
+mount-slow-pool() {
+	sudo mkdir -p /volumes/slow-pool/qrt/
+	sudo mount -t nfs -o vers=4,resvport truenas-local:/mnt/slow-pool/qrt /volumes/slow-pool/qrt/
+}
+
+
+mount-fast-pool() {
+	sudo mkdir -p /volumes/fast-pool/qrt/
+	sudo mount -t nfs -o vers=4,resvport truenas-scale:/mnt/fast-pool/qrt /volumes/fast-pool/qrt/
+}
+
+mount-vincent() {
+	sudo mkdir -p /volumes/vincent
+	sudo mount -t nfs -o vers=4,resvport truenas-scale:/mnt/fast-pool/vincent /volumes/vincent
+}
+
+mount-trash() {
+	sudo mkdir -p /volumes/slow-pool/trash
+	sudo mount -t nfs -o vers=4,resvport truenas-scale:/mnt/slow-pool/trash /volumes/slow-pool/trash
+}
+
+mount-manual-backups() {
+	sudo mkdir -p /volumes/remote-pool/manual-backups
+	sudo mount -t nfs -o vers=4,resvport truenas-remote:/mnt/remote-pool/manual-backups /volumes/remote-pool/manual-backups
+}
+
+mount-llm() {
+	sudo mkdir -p /volumes/fast-pool/llm
+	sudo mount -t nfs -o vers=4,resvport truenas-scale:/mnt/fast-pool/llm /volumes/fast-pool/llm
+}
+
+mount-postgres-test() {
+	sudo mkdir -p /volumes/slow-pool/postgres-test
+	sudo mount -t nfs -o vers=4,resvport truenas-local:/mnt/slow-pool/postgres-test /volumes/slow-pool/postgres-test
+}
+
+
+
+
+
 
 # tailscale
 if command -v tailscale >/dev/null 2>&1 && command -v tailscaled >/dev/null 2>&1; then
