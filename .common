@@ -252,41 +252,27 @@ tsunami_server() {
 
 #nfs
 
-mount-slow-pool() {
+mount-qrt() {
 	sudo mkdir -p /volumes/slow-pool/qrt/
 	sudo mount -t nfs -o vers=4,resvport truenas-local:/mnt/slow-pool/qrt /volumes/slow-pool/qrt/
 }
 
 
-mount-fast-pool() {
-	sudo mkdir -p /volumes/fast-pool/qrt/
-	sudo mount -t nfs -o vers=4,resvport truenas-scale:/mnt/fast-pool/qrt /volumes/fast-pool/qrt/
+mount-gitea() {
+	sudo mkdir -p /volumes/slow-pool/gitea/
+	sudo mount -t nfs -o vers=4,resvport truenas-local:/mnt/slow-pool/gitea /volumes/slow-pool/gitea/
 }
 
-mount-vincent() {
-	sudo mkdir -p /volumes/vincent
-	sudo mount -t nfs -o vers=4,resvport truenas-scale:/mnt/fast-pool/vincent /volumes/vincent
+mount-vincent-restic() {
+	sudo mkdir -p /volumes/fast-pool/vincent-restic
+	sudo mount -t nfs -o vers=4,resvport truenas-local:/mnt/fast-pool/vincent-restic /volumes/fast-pool/vincent-restic
 }
 
-mount-trash() {
-	sudo mkdir -p /volumes/slow-pool/trash
-	sudo mount -t nfs -o vers=4,resvport truenas-scale:/mnt/slow-pool/trash /volumes/slow-pool/trash
+mount-postgres() {
+	sudo mkdir -p /volumes/slow-pool/postgres
+	sudo mount -t nfs -o vers=3,resvport truenas-local:/mnt/slow-pool/postgres /volumes/slow-pool/postgres
 }
 
-mount-manual-backups() {
-	sudo mkdir -p /volumes/remote-pool/manual-backups
-	sudo mount -t nfs -o vers=4,resvport truenas-remote:/mnt/remote-pool/manual-backups /volumes/remote-pool/manual-backups
-}
-
-mount-llm() {
-	sudo mkdir -p /volumes/fast-pool/llm
-	sudo mount -t nfs -o vers=4,resvport truenas-scale:/mnt/fast-pool/llm /volumes/fast-pool/llm
-}
-
-mount-postgres-test() {
-	sudo mkdir -p /volumes/slow-pool/postgres-test
-	sudo mount -t nfs -o vers=4,resvport truenas-local:/mnt/slow-pool/postgres-test /volumes/slow-pool/postgres-test
-}
 
 
 
@@ -350,3 +336,49 @@ __file="${HOME}/common.local.sh"
 if [ -f "$__file" ]; then
     . "$__file"
 fi
+
+#UV
+uvti() {
+                if [ "$#" -ne 1 ]; then
+                        echo_date "'uvti' expects exactly 1 argument PACKAGE; got $#" && return 1
+                fi
+                package="$1"
+                shift
+                uv tool install \
+                        --index "https://qrt:lending0safety0email@pypi.queensberryresearch.com/simple" \
+                        --upgrade \
+                        --resolution highest \
+                        --prerelease disallow \
+                        --managed-python \
+                        "${package}"
+        }
+
+uvtr() {
+                if [ "$#" -lt 2 ]; then
+                        echo_date "'uvtr' expects at least 2 arguments FROM CMD; got $#" && return 1
+                fi
+                from="$1"
+                cmd="$2"
+                shift 2
+                uv tool run \
+                        --from "${from}" \
+                        --isolated \
+                        --index "https://qrt:lending0safety0email@pypi.queensberryresearch.com/simple" \
+                        --resolution highest \
+                        --prerelease disallow \
+                        --managed-python \
+                        "${cmd}" "$@"
+        }
+
+uvtu() {
+                if [ "$#" -ne 0 ]; then
+                        echo_date "'uvtu' expects 0 arguments; got $#" && return 1
+                fi
+                uv tool upgrade \
+                        --all \
+                        --managed-python \
+                        --resolution highest \
+                        --prerelease disallow \
+                        --index "https://qrt:lending0safety0email@pypi.queensberryresearch.com/simple" \
+                        --reinstall
+        }
