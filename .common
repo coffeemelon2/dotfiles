@@ -254,28 +254,34 @@ tsunami_server() {
 
 mount-qrt() {
 	sudo mkdir -p /volumes/slow-pool/qrt/
-	sudo mount -t nfs -o vers=4,resvport truenas-local:/mnt/slow-pool/qrt /volumes/slow-pool/qrt/
+	sudo mount -t nfs -o vers=4,resvport 192.168.70.161:/mnt/slow-pool/qrt /volumes/slow-pool/qrt/
 }
 
 
 mount-gitea() {
 	sudo mkdir -p /volumes/slow-pool/gitea/
-	sudo mount -t nfs -o vers=4,resvport truenas-local:/mnt/slow-pool/gitea /volumes/slow-pool/gitea/
+	sudo mount -t nfs -o vers=4,resvport 191.168.70.161:/mnt/slow-pool/gitea /volumes/slow-pool/gitea/
 }
 
 mount-vincent-restic() {
 	sudo mkdir -p /volumes/fast-pool/vincent-restic
-	sudo mount -t nfs -o vers=4,resvport truenas-local:/mnt/fast-pool/vincent-restic /volumes/fast-pool/vincent-restic
+	sudo mount -t nfs -o vers=4,resvport 192.168.70.161:/mnt/fast-pool/vincent-restic /volumes/fast-pool/vincent-restic
 }
 
 mount-postgres() {
 	sudo mkdir -p /volumes/slow-pool/postgres
-	sudo mount -t nfs -o vers=3,resvport truenas-local:/mnt/slow-pool/postgres /volumes/slow-pool/postgres
+	sudo mount -t nfs -o vers=3,resvport 192.168.70.161:/mnt/slow-pool/postgres /volumes/slow-pool/postgres
 }
 
+mount-data() {
+	sudo mkdir -p /volumes/slow-pool/data
+	sudo mount -t nfs -o vers=3,resvport 192.168.70.161:/mnt/slow-pool/data /volumes/slow-pool/data
+}
 
-
-
+mount-iso() {
+	sudo mkdir -p /volumes/slow-pool/iso
+	sudo mount -t nfs -o vers=4,resvport 192.168.70.161:/mnt/slow-pool/iso /volumes/slow-pool/iso/
+}
 
 
 
@@ -382,3 +388,49 @@ uvtu() {
                         --index "https://qrt:lending0safety0email@pypi.queensberryresearch.com/simple" \
                         --reinstall
         }
+
+
+#openclaw
+#
+
+tracy() {
+  local local_port=19888
+  local remote_port=18789
+  local ssh_target="tracy"
+  local url="http://localhost:${local_port}/#token=1ac6412117826b3fa5c930e6bf3a73f53b0ce44a91be4244"
+
+  # Kill any existing tunnel on this port
+  lsof -ti:${local_port} | xargs -r kill
+
+  # Start SSH tunnel in background
+  ssh -f -N -L ${local_port}:127.0.0.1:${remote_port} "${ssh_target}"
+
+  # Wait until the port is ready
+  while ! nc -z 127.0.0.1 ${local_port}; do sleep 0.1; done
+
+  open "$url"
+}
+
+karen() {
+  local local_port=18888
+  local remote_port=18789
+  local ssh_target="karen"
+  local url="http://localhost:${local_port}/#token=-1f0211d1d5f42816a99a43eae9f5dbb1da9429e90521f3b9"
+
+  lsof -ti:${local_port} | xargs -r kill
+  ssh -f -N -L ${local_port}:127.0.0.1:${remote_port} "${ssh_target}"
+  while ! nc -z 127.0.0.1 ${local_port}; do sleep 0.1; done
+  open "$url"
+}
+
+peter() { ssh -N -L 18789:127.0.0.1:18789 peter }
+alex() { ssh -N -L 18789:127.0.0.1:18789 alex }
+elsa() { ssh -N -L 18789:127.0.0.1:18789 elsa }
+
+
+
+
+
+
+
+
